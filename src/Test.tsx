@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 import ProductTraceabilityABI from './ProductTraceabilityABI.json';
 import './App.css';
 
-const App: React.FC = () => {
+const Test: React.FC = () => {
   const [contract, setContract] = useState<ethers.Contract | null>(null);
   const [farmers, setFarmers] = useState<any[]>([]);
   const [newFarmerName, setNewFarmerName] = useState('');
@@ -12,17 +12,17 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const initializeContract = async () => {
-      // Kiểm tra và yêu cầu kết nối ví
+      // Check for Ethereum provider (MetaMask)
       if ((window as any).ethereum) {
         const provider = new ethers.BrowserProvider((window as any).ethereum);
         const signer = await provider.getSigner();
-        const contractAddress = '0x49B8dB3B6A6367b136E132EE93bCb69edD3a6A5E'; // Địa chỉ hợp đồng của bạn
+        const contractAddress = '0x49B8dB3B6A6367b136E132EE93bCb69edD3a6A5E'; // Your contract address
 
-        // Khởi tạo hợp đồng
-        const contractInstance = new ethers.Contract(contractAddress, ProductTraceabilityABI as any, signer);
+        // Initialize contract
+        const contractInstance = new ethers.Contract(contractAddress, ProductTraceabilityABI.abi, signer);
         setContract(contractInstance);
 
-        // Gọi hàm để lấy danh sách farmers
+        // Load farmers after contract initialization
         await loadFarmers(contractInstance);
       } else {
         alert('Please install MetaMask!');
@@ -41,10 +41,9 @@ const App: React.FC = () => {
     if (contract) {
       try {
         const tx = await contract.addFarmer(newFarmerName, newFarmerLocation, newFarmerProductDetails);
-        await tx.wait(); // Chờ giao dịch hoàn tất
-        // Gọi lại danh sách farmers sau khi thêm
-        await loadFarmers(contract);
-        // Reset các trường nhập liệu
+        await tx.wait(); // Wait for the transaction to be mined
+        await loadFarmers(contract); // Reload farmers after adding a new one
+        // Reset input fields
         setNewFarmerName('');
         setNewFarmerLocation('');
         setNewFarmerProductDetails('');
@@ -56,6 +55,9 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
+      <h1 className="text-3xl font-bold underline text-slate-500">
+        Hello world!
+      </h1>
       <h1>Product Traceability</h1>
       <h2>Add Farmer</h2>
       <input
@@ -90,4 +92,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Test;

@@ -1,0 +1,86 @@
+import React, { useEffect, useState } from 'react';
+import { ethers } from 'ethers';
+import TestContract from '../Test.json'; // Path to the ABI JSON file
+
+
+const UpdateRetailerInfo = () => {
+    const [productId, setProductId] = useState('');
+    const [retailerName, setRetailerName] = useState('');
+    const [receivingDate, setReceivingDate] = useState('');
+    const [productStatus, setProductStatus] = useState('');
+    const [contract, setContract] = useState<ethers.Contract | null>(null);
+
+    useEffect(() => {
+        const initializeContract = async () => {
+            // Check for Ethereum provider (MetaMask)
+            if ((window as any).ethereum) {
+                const provider = new ethers.BrowserProvider((window as any).ethereum);
+                const signer = await provider.getSigner();
+                const contractAddress = '0xdAb120DCdd63FD5cd84a3878f3928195885fDB70'; // Your contract address
+
+                // Initialize contract
+                const contractInstance = new ethers.Contract(contractAddress, TestContract.abi, signer);
+                setContract(contractInstance);
+                // await loadFarmerData(contractInstance);
+            } else {
+                alert('Please install MetaMask!');
+            }
+        };
+
+        initializeContract();
+    }, []);
+
+
+    const updateRetailerInfo = async () => {
+        if (contract) {
+            try {
+
+                const tx = await contract.updateRetailerInfo(productId, retailerName, receivingDate, productStatus);
+                await tx.wait();
+
+            } catch (error) {
+                console.error(error);
+
+            }
+        }
+
+    };
+
+    return (
+        <div className="p-4 max-w-md mx-auto">
+            <h2 className="text-2xl font-bold mb-4">Update Retailer Info</h2>
+            <input
+                type="text"
+                className="border p-2 mb-4 w-full"
+                placeholder="Product ID"
+                value={productId}
+                onChange={(e) => setProductId(e.target.value)}
+            />
+            <input
+                type="text"
+                className="border p-2 mb-4 w-full"
+                placeholder="Retailer Name"
+                value={retailerName}
+                onChange={(e) => setRetailerName(e.target.value)}
+            />
+            <input
+                type="date"
+                className="border p-2 mb-4 w-full"
+                value={receivingDate}
+                onChange={(e) => setReceivingDate(e.target.value)}
+            />
+            <input
+                type="text"
+                className="border p-2 mb-4 w-full"
+                placeholder="Product Status (e.g., Available, Sold Out)"
+                value={productStatus}
+                onChange={(e) => setProductStatus(e.target.value)}
+            />
+            <button onClick={updateRetailerInfo} className="bg-yellow-500 text-white p-2 w-full rounded">
+                Update Info
+            </button>
+        </div>
+    );
+};
+
+export default UpdateRetailerInfo;
