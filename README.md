@@ -1,46 +1,13 @@
-# Getting Started with Create React App
+# Agriculture_Traceability_System - Vietnamese Description
+Hệ thống truy xuất nguồn gốc nông sản dựa trên blockchain là một ứng dụng hiện đại nhằm đảm bảo tính minh bạch và an toàn cho chuỗi cung ứng nông sản. Nền tảng Ethereum được sử dụng, với ngôn ngữ Solidity để phát triển các smart contract quản lý thông tin sản phẩm nông nghiệp. Người dùng có thể tương tác với blockchain thông qua Metamask, cho phép thực hiện giao dịch một cách an toàn.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Ganache mô phỏng mạng blockchain cục bộ, giúp kiểm tra và phát triển ứng dụng nhanh chóng mà không cần kết nối với mạng Ethereum thực tế. Giao diện người dùng được xây dựng bằng ReactJS, mang lại trải nghiệm mượt mà và tương tác nhanh chóng cho người dùng. TailwindCSS được áp dụng để tạo ra một giao diện hiện đại, dễ nhìn và thân thiện, giúp người tiêu dùng dễ dàng truy cập thông tin về nguồn gốc sản phẩm nông nghiệp.
 
-## Available Scripts
+Vite build tool giúp tối ưu hóa quá trình phát triển và xây dựng ứng dụng, nâng cao hiệu suất và giảm thời gian chờ. Hệ thống không chỉ giúp người tiêu dùng dễ dàng truy xuất nguồn gốc nông sản mà còn tạo ra một môi trường minh bạch, tăng cường sự tin tưởng giữa người tiêu dùng và nhà sản xuất, góp phần vào sự phát triển bền vững trong ngành nông nghiệp.
 
-In the project directory, you can run:
+# Agriculture_Traceability_System - English Description
+The "Agricultural Product Traceability System" leverages cutting-edge technologies to ensure transparency and accountability in the food supply chain. Built on the Ethereum blockchain, the system utilizes Solidity for smart contract development, enabling secure and tamper-proof records of agricultural products from farm to table. Users can interact with the blockchain through Metamask, a popular crypto wallet that facilitates seamless transactions and identity verification.
 
-### `npm start`
+To create a robust development environment, Ganache is employed to simulate the Ethereum blockchain, allowing developers to test their smart contracts locally before deploying them on the mainnet. The front-end interface is crafted with ReactJS, providing a dynamic user experience, while TailwindCSS is integrated for responsive and visually appealing designs.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Using Vite as a build tool enhances performance and development speed, facilitating rapid iterations and a smooth workflow. This comprehensive system not only enhances consumer confidence by allowing them to trace the origins of their food products but also empowers farmers and producers by promoting ethical practices and transparency in agriculture. Overall, the Agricultural Product Traceability System exemplifies how modern technology can transform and innovate traditional supply chains.
