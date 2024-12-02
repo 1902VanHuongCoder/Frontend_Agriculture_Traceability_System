@@ -113,7 +113,7 @@ const Trace = () => {
                             <p className='border-[1px] border-solid border-white px-4 py-4'>Ngày thu hoạch: <span className='font-bold text-[#88f6e0]'>{product.harvestDate}</span></p>
                             <p className='border-[1px] border-solid border-white px-4 py-4'>Nhà phân phối: <span className='font-bold text-[#88f6e0]'>{product.distributorName ? product.distributorName : "Chưa cập nhật"}</span></p>
                             <p className='border-[1px] border-solid border-white px-4 py-4'>Nhà bán lẻ: <span className='font-bold text-[#88f6e0]'>{product.retailerName ? product.retailerName : "Chưa cập nhật"}</span></p>
-                            <p className='border-[1px] border-solid border-white px-4 py-4 border-r-transparent'>Khối lượng: <span className='font-bold text-[#88f6e0]'>{Number(product.productWeight).toString()}</span></p>
+                            <p className='border-[1px] border-solid border-white px-4 py-4 border-r-transparent'>Khối lượng: <span className='font-bold text-[#88f6e0]'>{Number(product.productWeight).toString()} kg</span></p>
                         </div>
                     </div>
                 )}
