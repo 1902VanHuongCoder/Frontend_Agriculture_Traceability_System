@@ -10,6 +10,8 @@ function RegisterUser() {
     const [contract, setContract] = useState<ethers.Contract | null>(null);
     const navigate = useNavigate(); // Initialize useNavigate  
 
+    console.log(role);
+
     useEffect(() => {
         const initializeContract = async () => {
             // Check for Ethereum provider (MetaMask)  
@@ -38,7 +40,7 @@ function RegisterUser() {
 
                 // Navigate to the appropriate route based on the role  
                 switch (role) {
-                    case 'customer': navigate('/khachhang/truyxuat/nguongoc');
+                    case 'consumer': navigate('/khachhang/truyxuat/nguongoc');
                         break;
                     case 'farmer':
                         navigate('/nongdan/themnongsan');
