@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate  
 import contractABI from '../Test01.json';
 import BottomNavigation from './partials/BottomNavigation';
+import NotificationContext from '../contexts/NotificationContext';
 
 function RegisterUser() {
     const [userName, setUserName] = useState('');
     const [role, setRole] = useState('');
     const [contract, setContract] = useState<ethers.Contract | null>(null);
     const navigate = useNavigate(); // Initialize useNavigate  
-
-    console.log(role);
-
+    const { setTypeAndMessage } = useContext(NotificationContext);
     useEffect(() => {
         const initializeContract = async () => {
             // Check for Ethereum provider (MetaMask)  
             if ((window as any).ethereum) {
                 const provider = new ethers.BrowserProvider((window as any).ethereum);
                 const signer = await provider.getSigner();
-                const contractAddress = '0x67b62Ab16413f54f629ef8C687dB94A8Ba9120A6'; // Your contract address  
+                // const contractAddress = '0x67b62Ab16413f54f629ef8C687dB94A8Ba9120A6'; // Your contract address  
+                const contractAddress = '0xDfDB60cE7F16EA4D5BF60Bc74701b120A8c6c722'; // Your contract address  
 
                 // Initialize contract  
                 const contractInstance = new ethers.Contract(contractAddress, contractABI.abi, signer);
                 setContract(contractInstance);
             } else {
-                alert('Để tiếp tục hãy tải ví Metamask');
+                setTypeAndMessage('fail', 'Hãy cài đặt MetaMask!');
             }
         };
 
@@ -36,7 +36,7 @@ function RegisterUser() {
             try {
                 const tx = await contract.registerUser(userName, role);
                 await tx.wait();
-                alert("Đăng ký tài khoản thành công!");
+                setTypeAndMessage('success', 'Đăng ký tài khoản thành công!');
 
                 // Navigate to the appropriate route based on the role  
                 switch (role) {
@@ -52,11 +52,12 @@ function RegisterUser() {
                         navigate('/nhabanle/themthongtin');
                         break;
                     default:
-                        alert('Bạn vẫn chưa chọn vai trò nào trong hệ thống!');
+                        setTypeAndMessage('fail', 'Vui lòng chọn vai trò!');
                         break;
                 }
             } catch (error) {
                 console.error("Registration failed", error);
+                setTypeAndMessage('fail', 'Đăng ký tài khoản thất bại!');
             }
         }
     };
