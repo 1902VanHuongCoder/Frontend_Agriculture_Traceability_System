@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AddProduct from './components/Test02/AddProduct';
-import Product from './components/Test02/Trace';
+import AddProduct from './components/AddProduct';
+import Product from './components/Trace';
 // import Login from './components/Login';
-import RegisterUser from './components/Test02/registerUser';
-import UpdateDistributorInfo from './components/Test02/UpdateDistributorInfo';
-import UpdateRetailerInfo from './components/Test02/UpdateRetailerInfo';
+import RegisterUser from './components/registerUser';
+import UpdateDistributorInfo from './components/UpdateDistributorInfo';
+import UpdateRetailerInfo from './components/UpdateRetailerInfo';
 
 const Test02: React.FC = () => {
     return (
