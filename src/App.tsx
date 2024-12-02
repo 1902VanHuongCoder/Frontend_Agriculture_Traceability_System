@@ -2,17 +2,19 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AddProduct from './components/AddProduct';
 import Product from './components/Trace';
-import RegisterUser from './components/registerUser';
 import UpdateDistributorInfo from './components/UpdateDistributorInfo';
 import UpdateRetailerInfo from './components/UpdateRetailerInfo';
 import Introduction from './components/Introduction';
 import VideoBackground from './components/partials/VideoBackground';
+import RegisterUser from './components/RegisterUser';
+import Notification from './components/Notification';
 
 const App: React.FC = () => {
   return (
     <Router>
       <div className="relative w-screen h-screen ">
         <VideoBackground /> {/* Video background  */}
+        <Notification /> {/* Notification component */}
         <Routes>
           {/* Đường dẫn mặc định đến trang Login */}
           <Route path="/" element={<Introduction />} />

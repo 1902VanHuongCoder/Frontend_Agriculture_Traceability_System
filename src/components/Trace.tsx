@@ -1,7 +1,8 @@
 import { ethers, BigNumberish } from 'ethers'; // Import BigNumber
 import contractABI from '../Test01.json';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import BottomNavigation from './partials/BottomNavigation';
+import NotificationContext from '../contexts/NotificationContext';
 
 // Define the Product interface
 interface Product {
@@ -19,20 +20,21 @@ interface Product {
 const Trace = () => {
     const [productId, setProductId] = useState("");
     const [product, setProduct] = useState<Product | null>(null);
-    const [error, setError] = useState("");
     const [contract, setContract] = useState<ethers.Contract | null>(null);
-
+    const { setTypeAndMessage } = useContext(NotificationContext);
     useEffect(() => {
         const initializeContract = async () => {
             if ((window as any).ethereum) {
                 const provider = new ethers.BrowserProvider((window as any).ethereum);
                 const signer = await provider.getSigner();
-                const contractAddress = '0x67b62Ab16413f54f629ef8C687dB94A8Ba9120A6';
+                // const contractAddress = '0x67b62Ab16413f54f629ef8C687dB94A8Ba9120A6';
+                const contractAddress = '0xDfDB60cE7F16EA4D5BF60Bc74701b120A8c6c722';
 
                 const contractInstance = new ethers.Contract(contractAddress, contractABI.abi, signer);
                 setContract(contractInstance);
             } else {
-                alert('Please install MetaMask!');
+                // alert('Please install MetaMask!');
+                setTypeAndMessage('fail', 'Hãy cài đặt MetaMask!');
             }
         };
 
@@ -52,15 +54,17 @@ const Trace = () => {
                 setProduct(productData);
                 console.log(productData);
             } catch (err) {
-                setError("Không tìm thấy sản phẩm hoặc có lỗi xảy ra.");
+                console.log(err);
+                setTypeAndMessage('fail', 'Không tìm thấy nông sản!');
             }
         }
     };
 
+    console.log(product);
     return (
         <div className='w-screen h-screen relative'>
-            <div className='absolute top-0 left-0 flex justify-center items-center w-full h-full'>
-                <div className='relative w-fit h-fit'>
+            <div className='absolute top-0 left-0 flex justify-center items-center w-full h-full flex-col'>
+                {!product && <div className='relative w-fit h-fit mt-10'>
                     <div className="-z-1 absolute top-[20px] -left-[10px] -z-0 bg-green-600 w-6 h-20 transform skew-y-12 rotate-180"></div>
                     <div className="absolute top-[20px] left-[585px] -z-0 bg-green-600 w-6 h-20 transform -skew-y-12 rotate-180"></div>
                     <div className="relative w-[600px] mx-auto flex flex-col gap-2 bg-white h-fit rounded-md">
@@ -90,22 +94,25 @@ const Trace = () => {
                             </button>
                         </div>
                     </div>
-                </div>
-
+                </div>}
+                {product && (
+                    <div className="relative mt-6 bg-[rgba(0,0,0,.3)] pt-6 rounded-md flex flex-col items-center gap-y-4 border-dashed border-[2px] border-white border-b-transparent">
+                        <button onClick={() => { setProduct(null) }} className='absolute right-6 px-4 py-2 bg-white rounded-md'>TRUY XUẤT NÔNG SẢN KHÁC</button>
+                        <div>
+                            <div className='w-[400px] h-auto rounded-md overflow-hidden flex justify-center items-center'> {product.imageHash ? <img src={product.imageHash} alt={product.productName} /> : "NO IMAGE"}   </div>
+                        </div>
+                        <div className='flex text-white'>
+                            <p className='border-[1px] border-solid border-white px-4 py-4 border-l-transparent'>Tên nông sản: <span className='font-bold text-[#88f6e0]'>{product.productName}</span></p>
+                            <p className='border-[1px] border-solid border-white px-4 py-4'>Nông dân: <span className='font-bold text-[#88f6e0]'>{product.farmerName}</span></p>
+                            <p className='border-[1px] border-solid border-white px-4 py-4'>Ngày trồng: <span className='font-bold text-[#88f6e0]'>{product.plantingDate}</span></p>
+                            <p className='border-[1px] border-solid border-white px-4 py-4'>Ngày thu hoạch: <span className='font-bold text-[#88f6e0]'>{product.harvestDate}</span></p>
+                            <p className='border-[1px] border-solid border-white px-4 py-4'>Nhà phân phối: <span className='font-bold text-[#88f6e0]'>{product.distributorName ? product.distributorName : "Chưa cập nhật"}</span></p>
+                            <p className='border-[1px] border-solid border-white px-4 py-4'>Nhà bán lẻ: <span className='font-bold text-[#88f6e0]'>{product.retailerName ? product.retailerName : "Chưa cập nhật"}</span></p>
+                            <p className='border-[1px] border-solid border-white px-4 py-4 border-r-transparent'>Khối lượng: <span className='font-bold text-[#88f6e0]'>{Number(product.productWeight).toString()}</span></p>
+                        </div>
+                    </div>
+                )}
             </div>
-            {product && (
-                <div className="mt-6">
-                    <h2 className="text-xl font-semibold mb-2">Thông tin sản phẩm:</h2>
-                    <p><img src={product.imageHash} alt="" /></p>
-                    <p><strong>Tên sản phẩm:</strong> {product.productName}</p>
-                    <p><strong>Trạng thái:</strong> {ProductStatus[product.status]}</p>
-                    <p><strong>Ngày trồng:</strong> {product.plantingDate}</p>
-                    <p><strong>Ngày thu hoạch:</strong> {product.harvestDate}</p>
-                    <p><strong>Tên nông dân:</strong> {product.farmerName}</p>
-                    {product.retailerName && <p><strong>Nhà bán lẻ:</strong> {product.retailerName}</p>}
-                    <p><strong>Khối lượng:</strong>{Number(product.productWeight).toString()} kg</p> {/* Directly use productWeight */}
-                </div>
-            )}
             <BottomNavigation />
         </div>
 

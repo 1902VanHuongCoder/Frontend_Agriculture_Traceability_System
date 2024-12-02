@@ -1,28 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import contractABI from '../Test01.json';
 import BottomNavigation from './partials/BottomNavigation';
+import NotificationContext from '../contexts/NotificationContext';
 
 function UpdateDistributorInfo() {
     const [productId, setProductId] = useState('');
     const [distributorName, setDistributorName] = useState('');
     const [productWeight, setProductWeight] = useState('');
     const [contract, setContract] = useState<ethers.Contract | null>(null);
-
+    const { setTypeAndMessage } = useContext(NotificationContext);
     useEffect(() => {
         const initializeContract = async () => {
             // Check for Ethereum provider (MetaMask)
             if ((window as any).ethereum) {
                 const provider = new ethers.BrowserProvider((window as any).ethereum);
                 const signer = await provider.getSigner();
-                const contractAddress = '0x67b62Ab16413f54f629ef8C687dB94A8Ba9120A6'; // Your contract address
+                // const contractAddress = '0x67b62Ab16413f54f629ef8C687dB94A8Ba9120A6'; // Your contract address
+                const contractAddress = '0xDfDB60cE7F16EA4D5BF60Bc74701b120A8c6c722'; // Your contract address
+
 
                 // Initialize contract
                 const contractInstance = new ethers.Contract(contractAddress, contractABI.abi, signer);
                 setContract(contractInstance);
                 // await loadFarmerData(contractInstance);
             } else {
-                alert('Please install MetaMask!');
+                setTypeAndMessage('fail', 'Hãy cài đặt MetaMask!');
             }
         };
 
@@ -36,10 +39,11 @@ function UpdateDistributorInfo() {
 
                 const tx = await contract.updateDistributorInfo(productId, distributorName, productWeight);
                 await tx.wait();
-                alert("Distributor info updated successfully!");
+                setTypeAndMessage('success', 'Cập nhật thông tin nhà phân phối thành công!');
 
             } catch (error) {
                 console.error("Update failed", error);
+                setTypeAndMessage('fail', 'Chỉ nhà phân phối có thể cập nhật thông tin!');
             }
         };
     };
